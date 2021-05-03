@@ -2,19 +2,35 @@ name: ci-test
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-
   test:
     runs-on: ubuntu-latest
+    env:
+      APP_DB_USERNAME: postgres
+      APP_DB_PASSWORD: postgres
+      APP_DB_NAME: go_api
+      APP_DB_TEST_NAME: go_api_test
+    services:
+      postgres:
+        imagem: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: go_api_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Set up Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.15
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15
 
-    - name: Test
-      run: go test -v ./...
+      - name: Test
+        run: go test -v ./...
