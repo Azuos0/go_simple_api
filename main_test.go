@@ -27,13 +27,13 @@ func TestMain(m *testing.M) {
 		}
 	}
 
-	port, _ := strconv.Atoi(os.Getenv("APP_DB_PORT"))
+	port2, _ := strconv.Atoi(os.Getenv("APP_DB_PORT"))
 
 	a.Initialize(
 		os.Getenv("APP_DB_USERNAME"),
 		os.Getenv("APP_DB_PASSWORD"),
 		os.Getenv("APP_DB_TEST_NAME"),
-		port)
+		port2)
 
 	ensureTableExists()
 	code := m.Run()
